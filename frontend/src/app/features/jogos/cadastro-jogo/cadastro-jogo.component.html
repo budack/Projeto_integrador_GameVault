@@ -1,0 +1,88 @@
+<div class="pagina-cadastro">
+
+    <header class="cabecalho">
+        <button class="botao-voltar" (click)="voltar()">
+            ← Voltar
+        </button>
+
+        <h1>GameVault</h1>
+        <span>Adicionar jogo à biblioteca</span>
+    </header>
+
+    <main class="formulario-container">
+
+        <div class="titulo">
+            <h2>Novo jogo</h2>
+            <p>Preencha as informações para adicionar um jogo.</p>
+        </div>
+
+        <form (ngSubmit)="cadastrar()" #form="ngForm">
+
+            <div class="campo">
+                <label>Nome do jogo *</label>
+                <input type="text" name="nome" [(ngModel)]="jogo.nome" placeholder="Ex.: Skyrim" maxlength="150"
+                    required />
+            </div>
+
+            <div class="campo">
+                <label>Gênero *</label>
+                <input type="text" name="genero" [(ngModel)]="jogo.genero" placeholder="Ex.: RPG" maxlength="50"
+                    required />
+            </div>
+
+            <div class="linha">
+
+                <div class="campo">
+                    <label>Dificuldade</label>
+                    <select name="dificuldade" [(ngModel)]="jogo.dificuldade">
+                        <option value="">Selecione</option>
+                        <option value="Fácil">Fácil</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Difícil">Difícil</option>
+                        <option value="Muito difícil">Muito difícil</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Ano de lançamento</label>
+                    <input type="number" name="anoLancamento" [(ngModel)]="jogo.anoLancamento" min="1950" max="2100"
+                        placeholder="Ex.: 2011" />
+                </div>
+
+            </div>
+
+            <div class="campo">
+                <label>Categoria *</label>
+                <select name="categoriaId" [(ngModel)]="jogo.categoriaId" required>
+                    <option [ngValue]="0" disabled>
+                        Selecione uma categoria
+                    </option>
+
+                    <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">
+                        {{ categoria.nome }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>URL da imagem</label>
+                <input type="url" name="imagemUrl" [(ngModel)]="jogo.imagemUrl" placeholder="https://..." />
+            </div>
+
+            <div class="mensagem erro" *ngIf="erro">
+                {{ erro }}
+            </div>
+
+            <div class="mensagem sucesso" *ngIf="sucesso">
+                {{ sucesso }}
+            </div>
+
+            <button type="submit" class="botao-cadastrar" [disabled]="carregando || !form.valid">
+                {{ carregando ? 'Cadastrando...' : 'Cadastrar jogo' }}
+            </button>
+
+        </form>
+
+    </main>
+
+</div>

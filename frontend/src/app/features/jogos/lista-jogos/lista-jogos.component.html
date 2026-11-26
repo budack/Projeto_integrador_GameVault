@@ -1,0 +1,104 @@
+<div class="pagina">
+
+    <header class="cabecalho">
+
+        <div>
+            <h1>GameVault</h1>
+            <span>Minha biblioteca de jogos</span>
+        </div>
+
+        <div class="acoes-cabecalho">
+
+            <a routerLink="/jogos/novo" class="btn-novo-jogo">
+                + Novo jogo
+            </a>
+
+            <button type="button" class="btn-sair" (click)="sair()">
+                Sair ↗
+            </button>
+
+        </div>
+
+    </header>
+
+    <main class="conteudo">
+
+        <section class="titulo">
+            <div>
+                <h2>Biblioteca</h2>
+                <p>Explore os jogos cadastrados no GameVault.</p>
+            </div>
+
+            <span class="contador">
+                {{ jogosFiltrados.length }} jogos
+            </span>
+        </section>
+
+        <section class="filtros">
+
+            <input type="text" placeholder="Pesquisar jogo..." [(ngModel)]="busca">
+
+            <select [(ngModel)]="generoSelecionado">
+                <option value="">Todos os gêneros</option>
+
+                <option *ngFor="let genero of generos" [value]="genero">
+                    {{ genero }}
+                </option>
+            </select>
+
+        </section>
+
+        <div *ngIf="carregando" class="mensagem">
+            Carregando biblioteca...
+        </div>
+
+        <div *ngIf="erro" class="mensagem erro">
+            {{ erro }}
+            <button (click)="carregarJogos()">Tentar novamente</button>
+        </div>
+
+        <section class="lista-jogos" *ngIf="!carregando && !erro">
+
+            <article class="card-jogo" *ngFor="let jogo of jogosFiltrados" [routerLink]="['/jogos', jogo.id]">
+
+                <div class="imagem-jogo">
+                    <span><img *ngIf="jogo.imagemUrl" [src]="jogo.imagemUrl" [alt]="jogo.nome" class="capa-jogo"></span>
+                </div>
+
+                <div class="informacoes">
+
+                    <h3>{{ jogo.nome }}</h3>
+
+                    <span class="genero">
+                        {{ jogo.genero }}
+                    </span>
+
+                    <p>
+                        Dificuldade:
+                        {{ jogo.dificuldade || 'Não informada' }}
+                    </p>
+
+                    <p>
+                        Categoria:
+                        {{ jogo.categoria?.nome || 'Sem categoria' }}
+                    </p>
+
+                    <p *ngIf="jogo.anoLancamento">
+                        Lançamento: {{ jogo.anoLancamento }}
+                    </p>
+
+                </div>
+
+            </article>
+
+            <div *ngIf="jogosFiltrados.length === 0" class="mensagem">
+
+                Nenhum jogo encontrado.
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>

@@ -1,0 +1,66 @@
+<div class="pagina-detalhes">
+
+    <button class="botao-voltar" (click)="voltar()">
+        ← Voltar para biblioteca
+    </button>
+
+    <div *ngIf="carregando" class="mensagem">
+        Carregando detalhes do jogo...
+    </div>
+
+    <div *ngIf="erro" class="mensagem erro">
+        {{ erro }}
+    </div>
+
+    <main *ngIf="jogo && !carregando" class="detalhes-container">
+
+        <div class="imagem-destaque">
+            <img *ngIf="jogo.imagemUrl" [src]="jogo.imagemUrl" [alt]="jogo.nome" />
+
+            <div *ngIf="!jogo.imagemUrl" class="sem-imagem">
+                🎮
+            </div>
+        </div>
+
+        <section class="informacoes">
+
+            <span class="categoria">
+                {{ jogo.categoria?.nome || 'Sem categoria' }}
+            </span>
+
+            <h1>{{ jogo.nome }}</h1>
+
+            <p class="genero">{{ jogo.genero }}</p>
+
+            <div class="dados-jogo">
+
+                <div>
+                    <span>Dificuldade</span>
+                    <strong>{{ jogo.dificuldade || 'Não informada' }}</strong>
+                </div>
+
+                <div>
+                    <span>Ano de lançamento</span>
+                    <strong>{{ jogo.anoLancamento || 'Não informado' }}</strong>
+                </div>
+
+                <div>
+                    <span>Categoria</span>
+                    <strong>{{ jogo.categoria?.nome || 'Sem categoria' }}</strong>
+                </div>
+
+                <button class="btn-editar" [routerLink]="['/jogos', jogo.id, 'editar']">
+                    Editar jogo
+                </button>
+
+                <button class="btn-excluir" (click)="excluir()" [disabled]="carregando">
+                    🗑️ Excluir jogo
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>

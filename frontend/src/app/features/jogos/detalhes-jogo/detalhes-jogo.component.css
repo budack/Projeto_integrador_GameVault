@@ -1,0 +1,150 @@
+.pagina-detalhes {
+    min-height: 100vh;
+    background: #100d1c;
+    color: #fff;
+    padding: 35px;
+}
+
+.botao-voltar {
+    background: #29223e;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 35px;
+    font-size: 14px;
+}
+
+.botao-voltar:hover {
+    background: #49356f;
+}
+
+.detalhes-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 45px;
+    max-width: 1100px;
+    margin: 30px auto;
+    align-items: start;
+}
+
+.imagem-destaque img {
+    width: 100%;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 10px 35px #0008;
+}
+
+.sem-imagem {
+    height: 400px;
+    background: #29223e;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 70px;
+}
+
+.informacoes h1 {
+    font-size: 38px;
+    margin: 15px 0;
+}
+
+.categoria {
+    color: #bd91ff;
+    background: #302047;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.genero {
+    color: #aaa;
+    font-size: 18px;
+}
+
+.dados-jogo {
+    display: grid;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.dados-jogo div {
+    background: #1d192b;
+    padding: 18px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.dados-jogo span {
+    color: #aaa;
+}
+
+.mensagem {
+    text-align: center;
+    padding: 40px;
+}
+
+.erro {
+    color: #ff7777;
+}
+
+.btn-editar {
+    padding: 12px 20px;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-editar:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+}
+
+.btn-excluir {
+    padding: 12px 20px;
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-excluir:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+.btn-excluir:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+    .pagina-detalhes {
+        padding: 20px;
+    }
+
+    .detalhes-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .imagem-destaque {
+        max-width: 350px;
+        margin: auto;
+    }
+
+    .informacoes h1 {
+        font-size: 28px;
+    }
+
+}

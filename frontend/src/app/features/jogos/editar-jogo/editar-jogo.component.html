@@ -1,0 +1,83 @@
+<div class="editar-container">
+
+    <div class="editar-header">
+        <button type="button" class="btn-voltar" (click)="voltar()">
+            ← Voltar
+        </button>
+
+        <h1>Editar jogo</h1>
+        <p>Atualize as informações do seu jogo.</p>
+    </div>
+
+    <div *ngIf="carregando" class="mensagem">
+        Carregando informações...
+    </div>
+
+    <form *ngIf="!carregando && !erro || (!carregando && jogo.nome)" #form="ngForm" (ngSubmit)="atualizar()"
+        class="form-jogo">
+
+        <div class="campo">
+            <label for="nome">Nome do jogo</label>
+            <input id="nome" type="text" name="nome" [(ngModel)]="jogo.nome" maxlength="150" required />
+        </div>
+
+        <div class="campo">
+            <label for="genero">Gênero</label>
+            <input id="genero" type="text" name="genero" [(ngModel)]="jogo.genero" maxlength="50" required />
+        </div>
+
+        <div class="campo">
+            <label for="dificuldade">Dificuldade</label>
+            <select id="dificuldade" name="dificuldade" [(ngModel)]="jogo.dificuldade">
+                <option value="">Selecione</option>
+                <option value="Fácil">Fácil</option>
+                <option value="Médio">Médio</option>
+                <option value="Difícil">Difícil</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="ano">Ano de lançamento</label>
+            <input id="ano" type="number" name="anoLancamento" [(ngModel)]="jogo.anoLancamento" min="1950" max="2100" />
+        </div>
+
+        <div class="campo">
+            <label for="categoria">Categoria</label>
+            <select id="categoria" name="categoriaId" [(ngModel)]="jogo.categoriaId" required>
+                <option [ngValue]="0" disabled>Selecione uma categoria</option>
+                <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">
+                    {{ categoria.nome }}
+                </option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="imagemUrl">URL da imagem</label>
+            <input id="imagemUrl" type="url" name="imagemUrl" [(ngModel)]="jogo.imagemUrl" />
+        </div>
+
+        <div *ngIf="erro" class="mensagem erro">
+            {{ erro }}
+        </div>
+
+        <div *ngIf="sucesso" class="mensagem sucesso">
+            {{ sucesso }}
+        </div>
+
+        <div class="acoes">
+            <button type="button" class="btn-cancelar" (click)="voltar()">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn-salvar" [disabled]="carregando || !form.valid">
+                Salvar alterações
+            </button>
+        </div>
+
+    </form>
+
+    <div *ngIf="erro && !jogo.nome" class="mensagem erro">
+        {{ erro }}
+    </div>
+
+</div>
