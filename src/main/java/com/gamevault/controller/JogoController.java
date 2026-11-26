@@ -28,7 +28,7 @@ public class JogoController {
     }
 
 
-//      GET /jogos                        -> lista todos
+//      GET /jogos -> lista todos
 //      GET /jogos?nome=Skyrim&genero=RPG -> lista filtrando (parametros opcionais)
 
     @GetMapping
