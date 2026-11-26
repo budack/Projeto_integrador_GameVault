@@ -4,6 +4,7 @@ import com.gamevault.dto.request.CategoriaRequest;
 import com.gamevault.dto.response.CategoriaResponse;
 import com.gamevault.dto.response.JogoResponse;
 import com.gamevault.exception.RecursoNaoEncontradoException;
+import com.gamevault.exception.RegraNegocioException;
 import com.gamevault.model.Categoria;
 import com.gamevault.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
@@ -11,15 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//  MINIMO - parte da Isabella (TODO Isabella: completar)
-// Os nomes e assinaturas abaixo sao os que os controllers usam - manter iguais.
+// Regras de negocio das categorias.
+//  - nome obrigatorio           -> 400
+//  - nome repetido              -> 400
+//  - categoria inexistente      -> 404
 @Service
 public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
+    private final JogoService jogoService;
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
+    public CategoriaService(CategoriaRepository categoriaRepository, JogoService jogoService) {
         this.categoriaRepository = categoriaRepository;
+        this.jogoService = jogoService;
     }
 
     @Transactional(readOnly = true)
@@ -34,17 +39,24 @@ public class CategoriaService {
 
     @Transactional
     public CategoriaResponse cadastrar(CategoriaRequest request) {
-        // TODO Isabella: regras (nome obrigatorio, nome repetido...)
+        if (request.nome() == null || request.nome().isBlank()) {
+            throw new RegraNegocioException("Nao e permitido cadastrar categoria sem nome");
+        }
+        String nome = request.nome().trim();
+        if (categoriaRepository.existsByNomeIgnoreCase(nome)) {
+            throw new RegraNegocioException("Ja existe uma categoria com o nome '" + nome + "'");
+        }
+
         Categoria categoria = new Categoria();
-        categoria.setNome(request.nome());
-        categoria.setDescricao(request.descricao());
+        categoria.setNome(nome);
+        categoria.setDescricao(request.descricao() == null ? null : request.descricao().trim());
         return CategoriaResponse.fromEntity(categoriaRepository.save(categoria));
     }
 
+    // GET /categorias/{id}/jogos -> usa a consulta findByCategoriaId do JogoRepository
     @Transactional(readOnly = true)
     public List<JogoResponse> listarJogos(Long categoriaId) {
-        // TODO Isabella: trocar por uma consulta no JogoRepository (ex: findByCategoriaId)
-        return buscarEntidade(categoriaId).getJogos().stream().map(JogoResponse::fromEntity).toList();
+        return jogoService.listarPorCategoria(categoriaId);
     }
 
     private Categoria buscarEntidade(Long id) {

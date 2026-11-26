@@ -2,7 +2,7 @@ package com.gamevault.dto.response;
 
 import com.gamevault.model.Jogo;
 
-//  MINIMO - parte da Isabella (TODO Isabella: completar)
+// O que a API DEVOLVE (nunca expomos a entidade direto).
 public record JogoResponse(
         Long id,
         String nome,
